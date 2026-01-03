@@ -31,7 +31,14 @@ stages:
           npm install -g retire
           npm install
           retire --exitwith 0
+# - stage: static code analysis
+#   displayName: static code analysis
+#   jobs:
+#     - job: SonarQubeAnalysis
+#       displayName: Sonar Qube analysis
+#       steps:
 
+        
 - stage: Yamllinting
   displayName: Yaml lint
   jobs:
@@ -44,5 +51,5 @@ stages:
           targetType: 'inline'
           script: 'pip install --user yamllint'
           errorActionPreference: 'continue'
-
-        
+          workingDirectory: '$(System.DefaultWorkingDirectory)'
+    
