@@ -16,4 +16,33 @@ stages:
         backendAzureRmStorageAccountName: 'vmst0070'
         backendAzureRmContainerName: 'vmcontainer07'
         backendAzureRmKey: 'infra.tfstate'
-    
+
+- stage: SoftwareCompositionAnalysis
+  displayName: Software Composition Analysis (Dependency Security)
+  jobs: 
+  - job: DependencyVulnerabilityScan
+    displayName: Dependency Vulnerability Scan (Retire.js)
+    steps: 
+    - task: PowerShell@2
+      displayName: Run Dependency Security Scan
+      inputs:
+        targetType: 'inline'
+        script: |
+          npm install -g retire
+          npm install
+          retire --exitwith 0
+
+- stage: Yamllinting
+  displayName: Yaml lint
+  jobs:
+    - job: indentation_sensitive
+      displayName: indentation-sensitive
+      steps:
+       - task: PowerShell@2
+         displayName: Yaml liniting
+         inputs:
+          targetType: 'inline'
+          script: 'pip install --user yamllint'
+          errorActionPreference: 'continue'
+
+        
