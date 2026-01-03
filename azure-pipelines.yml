@@ -25,7 +25,7 @@ stages:
     steps: 
     - task: PowerShell@2
       displayName: Run Dependency Security Scan
-      inputs:
+      inputs: #
         targetType: 'inline'
         script: |
           npm install -g retire
