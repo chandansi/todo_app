@@ -46,9 +46,10 @@ stages:
       displayName: indentation-sensitive
       steps:
        - task: PowerShell@2
+         continueOnError: true
          displayName: Yaml liniting
          inputs:
           targetType: 'inline'
-          script: 'pip install --user yamllint'
-          errorActionPreference: 'continue'
-          workingDirectory: '$(System.DefaultWorkingDirectory)'
+          script:
+            pip install --user yamllint
+            yamllint $(System.DefaultWorkingDirectory)
