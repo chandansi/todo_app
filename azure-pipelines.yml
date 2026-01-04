@@ -43,8 +43,8 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-            npm install -g @sonar/scanner
-            sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_af3e9fc6955f19647f7115f1efe97d7b8f4f05c6 -Dsonar.projectKey=pip_infra
+            npm install -g @sonar/scan
+            sonar-scanner -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_af3e9fc6955f19647f7115f1efe97d7b8f4f05c6 -Dsonar.projectKey=pip_infra
         
 - stage: Yamllinting
   displayName: Yaml lint
