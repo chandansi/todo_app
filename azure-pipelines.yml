@@ -31,12 +31,16 @@ stages:
           npm install -g retire
           npm install
           retire --exitwith 0
-# - stage: static code analysis
-#   displayName: static code analysis
-#   jobs:
-#     - job: SonarQubeAnalysis
-#       displayName: Sonar Qube analysis
-#       steps:
+- stage: staticCodeAnalysis
+  displayName: static code analysis
+  jobs:
+    - job: SonarQubeAnalysis
+      displayName: Sonar Qube analysis
+      steps:
+      - task: PowerShell@2
+        inputs:
+          targetType: 'inline'
+          script: 'sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_af3e9fc6955f19647f7115f1efe97d7b8f4f05c6 -Dsonar.projectKey=pip_infra'
 
         
 - stage: Yamllinting
