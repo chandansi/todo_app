@@ -18,20 +18,20 @@ stages:
         backendAzureRmContainerName: 'vmcontainer07'
         backendAzureRmKey: 'infra.tfstate'
 
-# - stage: SoftwareCompositionAnalysis
-#   displayName: Software Composition Analysis (Dependency Security)
-#   jobs: 
-#   - job: DependencyVulnerabilityScan
-#     displayName: Dependency Vulnerability Scan (Retire.js)
-#     steps: 
-#     - task: PowerShell@2
-#       displayName: Run Dependency Security Scan
-#       inputs: #
-#         targetType: 'inline'
-#         script: |
-#           npm install -g retire
-#           npm install
-#           retire --exitwith 0
+- stage: SoftwareCompositionAnalysis
+  displayName: Software Composition Analysis (Dependency Security)
+  jobs: 
+  - job: DependencyVulnerabilityScan
+    displayName: Dependency Vulnerability Scan (Retire.js)
+    steps: 
+    - task: PowerShell@2
+      displayName: Run Dependency Security Scan
+      inputs: #
+        targetType: 'inline'
+        script: |
+          npm install -g retire
+          npm install
+          retire --exitwith 0
 
 - stage: staticCodeAnalysis
   displayName: static code analysis
@@ -39,27 +39,12 @@ stages:
     - job: SonarQubeAnalysis
       displayName: Sonar Qube analysis
       steps:
-      # - task: PowerShell@2
-      #   inputs:
-      #     targetType: 'inline'
-      #     script: 'sonar -D sonar.host.url=http://localhost:9000 -D sonar.login=sqp_af3e9fc6955f19647f7115f1efe97d7b8f4f05c6 -D sonar.projectKey=pip_infra' 
+      - task: PowerShell@2
+        inputs:
+          targetType: 'inline'
+          script: 'sonar -D sonar.host.url=http://localhost:9000 -D sonar.login=sqp_af3e9fc6955f19647f7115f1efe97d7b8f4f05c6 -D sonar.projectKey=pip_infra' 
+          workingDirectory: '$(Build.SourcesDirectory)/src'
 
-      # workingDirectory: '$(Build.SourcesDirectory)/src'
-        - task: SonarQubePrepare@8
-          inputs:
-            SonarQube: 'sonarconnection'
-            scannerMode: 'cli'
-            configMode: 'manual'
-            cliProjectKey: 'pip_infra'
-            cliProjectName: 'todo-app'
-            cliSources: '.'
-        - task: SonarQubePublish@8
-          inputs:
-            pollingTimeoutSec: '300'
-      #  - task: SonarQubeAnalyze@8
-      # displayName: Run SonarQube Analysis
-      # inputs:
-      #   jdkversion: 'JAVA_HOME_17_X64'
 
 
 - stage: Yamllinting
