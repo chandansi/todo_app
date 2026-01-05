@@ -42,7 +42,8 @@ stages:
       - task: PowerShell@2
         inputs:
           targetType: 'inline'
-          script: 'sonar-scanner -Dsonar.host.url=http://localhost:9000 -Dsonar.login=sqp_af3e9fc6955f19647f7115f1efe97d7b8f4f05c6 -Dsonar.projectKey=pip_infra' 
+          script: 'sonar -D sonar.host.url=http://localhost:9000 -D sonar.login=sqp_af3e9fc6955f19647f7115f1efe97d7b8f4f05c6 -D sonar.projectKey=pip_infra' 
+          workingDirectory: '$(Build.SourcesDirectory)/src'
 
 - stage: Yamllinting
   displayName: Yaml lint
