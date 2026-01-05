@@ -49,4 +49,13 @@ stages:
                 npm run build
               workingDirectory: $(System.DefaultWorkingDirectory)
     
-        
+  - stage:
+    displayName: "npm install"
+    jobs:
+     - job: 
+       steps:
+        - task: PublishPipelineArtifact@1
+          inputs:
+            targetPath: '$(Pipeline.Workspace)/build/.'
+            artifact: 'todo_ui'
+            publishLocation: 'pipeline'
