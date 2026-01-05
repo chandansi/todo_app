@@ -12,9 +12,41 @@ stages:
       - job: Sonarqube
         displayName: "Sonar Qube"
         steps:
-          - 
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: 'sonar -D sonar.host.url=http://localhost:9000 -D sonar.token=sqp_af3e9fc6955f19647f7115f1efe97d7b8f4f05c6 -D sonar.projectKey=pip_infra'
-    workingDirectory: '$(Build.SourcesDirectory)/src'
+
+        - task: PowerShell@2
+          inputs:
+            targetType: 'inline'
+            script: 'sonar -D sonar.host.url=http://localhost:9000 -D sonar.token=sqp_af3e9fc6955f19647f7115f1efe97d7b8f4f05c6 -D sonar.projectKey=pip_infra'
+            
+  - stage: 
+    displayName: "Install Node.js"
+    jobs:
+      - job: NPM
+        steps:
+        - task: NodeTool@0
+          inputs:
+            versionSource: 'spec'
+            versionSpec: '16.x'
+            checkLatest: true
+  - stage: 
+    displayName: "run Node.js"
+    jobs:
+      - job: Node
+        steps:
+        - task: NodeTaskRunnerInstaller@0
+          inputs:
+            nodeVersion: '6'
+  - stage:
+    displayName: "npm install"
+    jobs:
+      - job: 
+        steps:
+          - task: PowerShell@2
+            inputs:
+              targetType: 'inline'
+              script: |
+                npm install
+                npm run build
+              workingDirectory: $(System.DefaultWorkingDirectory)
+    
+        
