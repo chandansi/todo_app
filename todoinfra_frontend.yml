@@ -50,7 +50,7 @@ stages:
               workingDirectory: $(System.DefaultWorkingDirectory)
     
   - stage:
-    displayName: "npm install"
+    displayName: "BuildArtifact"
     jobs:
      - job: 
        steps:
@@ -59,8 +59,9 @@ stages:
             targetPath: '$(System.DefaultWorkingDirectory)/build/.'
             artifact: 'todo_ui'
             publishLocation: 'pipeline'
-        - task: PublishPipelineArtifact@1
+
+        - task: DownloadPipelineArtifact@2
           inputs:
+            buildType: 'current'
+            artifactName: 'Todo_app_frontend'
             targetPath: '$(System.DefaultWorkingDirectory)/build_artifact'
-            artifact: 'Todo_app_frontend'
-            publishLocation: 'pipeline'
