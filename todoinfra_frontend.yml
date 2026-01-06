@@ -38,7 +38,7 @@ stages:
             nodeVersion: '6'
   - stage: npminstall
     displayName: "npm install"
-    dependsOn: Node
+    # dependsOn: Node
     jobs:
       - job: 
         steps:
