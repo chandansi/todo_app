@@ -52,7 +52,7 @@ stages:
     
   - stage: BuildArtifact
     displayName: "Build Artifact"
-    dependsOn: npminstall
+    # dependsOn: npminstall
     jobs:
      - job: 
        steps:
