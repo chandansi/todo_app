@@ -28,7 +28,7 @@ stages:
             versionSource: 'spec'
             versionSpec: '16.x'
             checkLatest: true
-  - stage: 
+  - stage: node
     displayName: "run Node.js"
     jobs:
       - job: Node
@@ -36,8 +36,9 @@ stages:
         - task: NodeTaskRunnerInstaller@0
           inputs:
             nodeVersion: '6'
-  - stage:
+  - stage: npminstall
     displayName: "npm install"
+    dependsOn: Node
     jobs:
       - job: 
         steps:
@@ -49,8 +50,9 @@ stages:
                 npm run build
               workingDirectory: $(System.DefaultWorkingDirectory)
     
-  - stage:
-    displayName: "BuildArtifact"
+  - stage: BuildArtifact
+    displayName: "Build Artifact"
+    dependsOn: npminstall
     jobs:
      - job: 
        steps:
@@ -63,5 +65,5 @@ stages:
         - task: DownloadPipelineArtifact@2
           inputs:
             buildType: 'current'
-            artifactName: 'Todo_app_frontend'
+            artifactName: 'todo_ui'
             targetPath: '$(System.DefaultWorkingDirectory)/build_artifact'
